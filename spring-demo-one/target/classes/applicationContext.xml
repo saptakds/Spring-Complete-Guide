@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans">
+	
+	
+	<!-- Load the properties file sports.properties -->
+	<context:property-placeholder location="classpath:sport.properties"/>
+
+	<!-- Define your beans here -->
+	
+	<!-- define the dependency -->
+	
+	<bean id="myFortuneService" class="com.saptak.springdemo.RandomFortuneService">
+	</bean>
+	
+	<bean id="myCoach" class="com.saptak.springdemo.TrackCoach" 
+		init-method="doMyStartupStuff" 
+		destroy-method="doMyStopStuff">
+		
+		<!-- Setup constructor injection -->
+		<constructor-arg ref="myFortuneService"></constructor-arg>
+	</bean>
+
+	<bean id="myCricketCoach" class="com.saptak.springdemo.CricketCoach">
+		<!-- Setup setter injection -->
+		<property name="fortuneService" ref="myFortuneService"></property>
+		
+		<!-- Inject literal values -->
+		<property name="emailAddress" value="${foo.email}"></property>
+		<property name="team" value="${foo.team}"></property>
+	</bean>
+	
+
+</beans>
